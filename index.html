@@ -3,62 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>cambios</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-        header {
-            background-color: #333;
-            color: white;
-            text-align: center;
-            padding: 2rem;
-        }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-        .project {
-            margin-bottom: 1rem;
-            border: 1px solid #ddd;
-            padding: 1rem;
-        }
-        footer {
-            text-align: center;
-            padding: 1rem;
-            background-color: #333;
-            color: white;
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
+    <title>Sentiment Analysis</title>
 </head>
 <body>
-    <header>
-        <h1>SaUL Olguin</h1>
-        <p>Web Developer</p>
-    </header>
     <div class="container">
-        <h2>About Me</h2>
-        <p>This is where you can introduce yourself and talk about your skills and interests.</p>
-
-        <h2>Projects</h2>
-        <div class="project">
-            <h3>Project 1</h3>
-            <p>Description of your first project goes here.</p>
+        <h1>Sentiment Analysis</h1>
+        <form id="sentiment-form">
+            <label for="text">Enter your text:</label>
+            <textarea id="text" name="text" rows="4" required></textarea>
+            <button type="submit">Analyze</button>
+        </form>
+        <div id="result" class="hidden">
+            <h2>Analysis Result</h2>
+            <p id="sentiment-label">Sentiment: <span id="label"></span></p>
+            <p id="sentiment-score">Score: <span id="score"></span></p>
         </div>
-        <div class="project">
-            <h3>Project 2</h3>
-            <p>Description of your second project goes here.</p>
-        </div>
-        <!-- You can add more project sections as needed -->
-
-        <h2>Contact Me</h2>
-        <p>You can reach me at: <a href="mailto:your@email.com">your@email.com</a></p>
     </div>
-    <footer>
-        &copy; 2023 Your Portfolio. All rights reserved.
-    </footer>
+    <script src="script.js"></script>
 </body>
 </html>
