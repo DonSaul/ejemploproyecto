@@ -1,42 +1,33 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const axios = require('axios');
+document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('sentiment-form');
+    const resultDiv = document.getElementById('result');
+    const sentimentLabelElement = document.getElementById('label');
+    const sentimentScoreElement = document.getElementById('score');
 
-const app = express();
-app.use(bodyParser.urlencoded({ extended: true }));
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault();
 
-const azureEndpoint = 'YOUR_AZURE_API_ENDPOINT';
-const subscriptionKey = 'YOUR_AZURE_SUBSCRIPTION_KEY';
+        const text = document.getElementById('text').value;
 
-app.get('/', (req, res) => {
-    // Serve your HTML form here
-    res.sendFile(__dirname + '/index.html');
-});
+        try {
+            const response = await fetch('/analyze', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `text=${encodeURIComponent(text)}`,
+            });
 
-app.post('/analyze', async (req, res) => {
-    const text = req.body.text;
-
-    const response = await axios.post(`${azureEndpoint}/sentiment`, {
-        documents: [
-            {
-                language: 'en',
-                id: '1',
-                text: text,
-            },
-        ],
-    }, {
-        headers: {
-            'Content-Type': 'application/json',
-            'Ocp-Apim-Subscription-Key': subscriptionKey,
-        },
+            if (response.ok) {
+                const data = await response.json();
+                sentimentLabelElement.textContent = data.sentimentLabel;
+                sentimentScoreElement.textContent = data.sentimentScore;
+                resultDiv.classList.remove('hidden');
+            } else {
+                console.error('Error analyzing sentiment:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
     });
-
-    const sentimentScore = response.data.documents[0].score;
-    const sentimentLabel = sentimentScore > 0.5 ? 'Positive' : sentimentScore < 0.5 ? 'Negative' : 'Neutral';
-
-    res.send(`Sentiment: ${sentimentLabel} (Score: ${sentimentScore})`);
-});
-
-app.listen(3000, () => {
-    console.log('Server is running on port 3000');
 });
